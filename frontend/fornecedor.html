@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Fornecedor</title>
+</head>
+<body>
+    <button onclick="window.location.href='index.html'">Voltar para Home</button>
+    <h1>Formulário de cadastro</h1>
+     <form action="/enviar-dados" method="POST">
+        <div id="campo">
+            <label for="nome">Nome da Empresa:</label><br>
+            <input type="text" id="nome" name="nome" required placeholder="Insira o nome da empresa">
+        </div>
+        
+        <br><br>
+
+        <div>
+            <label for="cnpj">CNPJ:</label><br>
+            <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00">
+        </div>
+        
+        <br><br>
+
+        <div>
+            <label for="endereco">Endereço:</label><br>
+            <input type="text" id="endereco" name="endereco" required>
+        </div>
+
+        <br><br>
+    
+        <div>
+            <label for="telefone">Telefone:</label><br>
+            <input type="text" id="telefone" name="telefone" required>
+        </div>
+        
+        <br><br>
+            
+        <div id="campo">
+            <label for="email"> E-mail:</label><br>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <br><br>
+
+        <input type="submit" value="Enviar">
+
+     </form>
+</body>
+</html>
