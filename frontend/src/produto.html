@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="javascript" href="/frontend/src/produto.js">
+    <title>Cadastro de Produto</title>
+</head>
+
+<body>
+    <button>
+        <a href="index.html">Voltar</a>
+    </button> <br><br>
+
+    <form action="/enviar-dados" method="POST">
+        <div>
+            <label for="nome">Nome do Produto:</label><br>
+            <input type="text" id="nome" name="nome" required placeholder="Insira o nome do produto">
+        </div>
+        <br><br>
+
+        <div>
+            <label for="codigo">Código de Barras:</label><br>
+            <input type="number" id="codigo" name="codigo" required placeholder="Insira o código de barras">
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="descricao">Descrição:</label><br>
+            <textarea id="descricao" name="descricao" required placeholder="Descreva brevemente o produto"></textarea>
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="preco">Preço:</label><br>
+            <input type="number" id="preco" name="preco" required placeholder="Insira o preço do produto">
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="quantidade">Quantidade em Estoque:</label><br>
+            <input type="number" id="quantidade" name="quantidade" required placeholder="Quantidade disponível">
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="categoria">Categoria:</label><br>
+            <dropdown>
+                <select id="categoria" name="categoria" required>
+                    <option value="">Selecione uma categoria</option>
+                    <option value="eletronicos">Eletrônicos</option>
+                    <option value="roupas">Roupas</option>
+                    <option value="alimentos">Alimentos</option>
+                    <option value="moveis">Móveis</option>
+                    <option value="outros">Outros</option>
+                </select>
+            </dropdown>
+        </div>
+        <br><br>
+
+        <div>   
+            <label for="data">Data de Validade:</label><br>
+            <input type="date" id="data" name="data" required placeholder="Insira a data de validade do produto">
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="imagem">Imagem do Produto:</label><br>
+            <input type="file" id="imagem" name="imagem" accept="image/*">
+        </div>
+
+        <br><br>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+
+</html>
