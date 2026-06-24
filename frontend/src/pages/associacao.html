@@ -1,11 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Associação de Fornecedor a Produto</title>
 </head>
+
 <body>
-    
+    <button onclick="window.location.href='index.html'">Voltar</button>
+    <br><br>
+    <h1>Detalhes do Produto</h1>
+
+    <form action="enviar_associacao" method="POST">
+
+        <div id="nome-produto">
+            <label for="nome-produto">Nome do Produto:</label><br>
+            <input type="text" id="nome-produto" name="nome-produto" value="nome do produto" readonly>
+        </div>
+
+        <br><br>
+
+        <div id="campo">
+            <label for="codigo">Código de barras:</label><br>
+            <input type="text" id="codigo" name="codigo" value="0000000000000" readonly>
+        </div>
+
+        <br><br>
+
+        <div id="descricao">
+            <label for="descricao">Descrição:</label><br>
+            <input type="text" id="descricao" name="descricao" value="Descrição breve do produto" readonly>
+        </div>
+
+        <br><br>
+
+        <div>
+            <label for="imagem">Imagem do Produto (Se aplicável):</label><br><br>
+            <input type="file" id="imagem" name="imagem" accept="image/*">
+        </div>
+
+        <h1>Associação de Fornecedor</h1>
+        <p>*Significa que são campos obrigatórios</p>
+
+        <div>
+            <label for="selecao-fornecedor">Seleção de Fornecedor*:</label><br>
+            <select id="selecao-fornecedor" name="selecao-fornecedor" required>
+                <option value="">Selecione um fornecedor</option>
+                <option value="fornecedor1">Fornecedor 1</option>
+                <option value="fornecedor2">Fornecedor 2</option>
+                <option value="fornecedor3">Fornecedor 3</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Associar Fornecedor">   
+        </div>
+
+        <div id="fornecedores-associados">
+            <h2>Fornecedores Associados</h2>
+
+            <ul>
+                <li>
+                    Fornecedor ABC Ltda - 12.345.678/0001-90 <br><br>
+                    <button>Desassociar</button>
+                </li>
+                <br><br>
+                <li>
+                    Fornecedor XPTO - 98.765.432/0001-10 <br><br>
+                    <button>Desassociar</button>
+                </li>
+            </ul>
+        </div>
+    </form>
 </body>
-</html>
