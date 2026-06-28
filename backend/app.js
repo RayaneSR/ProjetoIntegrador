@@ -56,11 +56,12 @@ app.post("/fornecedores", (req, res) => {
         });
     }
 
+
     const sqlVerifica = "SELECT * FROM fornecedores WHERE cnpj = ?";
 
     db.get(sqlVerifica, [cnpj], (err, fornecedor) => {
 
-        console.log("Fornecedor encontrato:", fornecedor);
+        console.log("Fornecedor encontrado:", fornecedor);
 
         if (err) {
             return res.status(500).json({
@@ -118,6 +119,24 @@ app.post("/fornecedores", (req, res) => {
     });
 
 });
+
+ app.get("/fornecedores", (req, res) => {
+
+        const sql = "SELECT * FROM fornecedores";
+
+        db.all(sql, [], (err, fornecedores) => {
+
+            if (err) {
+                return res.status(500).json({
+                    erro: err.message
+                });
+            }
+
+            res.json(fornecedores);
+
+        });
+
+    });
 
 
 app.listen(3000, () => {
