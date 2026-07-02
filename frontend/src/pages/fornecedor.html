@@ -1,58 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Fornecedor</title>
+    <link rel="stylesheet" href="app.css">
 </head>
+
 <body>
-    <button onclick="window.location.href='index.html'">Voltar</button>
-    <h1>Formulário de cadastro</h1>
+    <div class="container">
+        <button onclick="window.location.href='index.html'">Voltar</button>
+        <h1>Formulário de cadastro</h1>
         <p>*Significa que são campos obrigatórios</p>
-     <form action="/enviar-dados" method="POST">
-        <div id="campo">
-            <label for="nome">Nome da Empresa*:</label><br>
-            <input type="text" id="nome" name="nome" required placeholder="Insira o nome da empresa">
-        </div>
-        
-        <br><br>
+        <form id="formFornecedor">
 
-        <div id="campo">
-            <label for="cnpj">CNPJ*:</label><br>
-            <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00">
-        </div>
-        
-        <br><br>
+            <div id="campo">
+                <label for="nome">Nome da Empresa*:</label><br>
+                <input type="text" id="nome" name="nome" required placeholder="Insira o nome da empresa">
+            </div>
 
-        <div id="campo">
-            <label for="endereco">Endereço*:</label><br>
-            <input type="text" id="endereco" name="endereco" required placeholder="Endereço da empresa">
-        </div>
+            <br><br>
 
-        <br><br>
-    
-        <div id="campo">
-            <label for="telefone">Telefone*:</label><br>
-            <input type="text" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
-        </div>
-        
-        <br><br>
-            
-        <div id="campo">
-            <label for="email"> E-mail*:</label><br>
-            <input type="email" id="email" name="email" required placeholder="exemplo@fornecedor.com">
-        </div>
-        
-        <br><br>
+            <div id="campo">
+                <label for="cnpj">CNPJ*:</label><br>
+                <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00">
+            </div>
 
-        <div id="campo">
-            <label for="contatoprincipal"> Contato Principal*:</label><br>
-            <input type="text" id="contatoprincipal" name="contato principal" required placeholder="Nome do contato principal">
-        </div>
-        <br><br>
+            <br><br>
 
-        <input type="submit" value="Enviar">
+            <div id="campo">
+                <label for="endereco">Endereço*:</label><br>
+                <input type="text" id="endereco" name="endereco" required placeholder="Endereço da empresa">
+            </div>
 
-     </form>
+            <br><br>
+
+            <div id="campo">
+                <label for="telefone">Telefone*:</label><br>
+                <input type="text" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+            </div>
+
+            <br><br>
+
+            <div id="campo">
+                <label for="email"> E-mail*:</label><br>
+                <input type="email" id="email" name="email" required placeholder="exemplo@fornecedor.com">
+            </div>
+
+            <br><br>
+
+            <div id="campo">
+                <label for="contatoprincipal"> Contato Principal*:</label><br>
+                <input type="text" id="contatoprincipal" name="contato principal" required
+                    placeholder="Nome do contato principal">
+            </div>
+            <br><br>
+
+            <input type="submit" value="Enviar">
+
+        </form>
+
+        <script>
+
+            const formulario = document.getElementById("formFornecedor");
+
+            formulario.addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const fornecedor = {
+
+                    nome_empresa: document.getElementById("nome").value,
+                    cnpj: document.getElementById("cnpj").value,
+                    endereco: document.getElementById("endereco").value,
+                    telefone: document.getElementById("telefone").value,
+                    email: document.getElementById("email").value,
+                    contato_principal: document.getElementById("contatoprincipal").value
+
+                };
+
+                try {
+
+                    const resposta = await fetch("http://localhost:3000/fornecedores", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(fornecedor)
+
+                    });
+
+                    const dados = await resposta.json();
+
+                    alert(dados.mensagem);
+
+                    if (resposta.ok) {
+                        formulario.reset();
+                    }
+
+                } catch (erro) {
+
+                    alert("Erro ao conectar com o servidor.");
+
+                    console.error(erro);
+
+                }
+
+            });
+
+        </script>
+    </div>
 </body>
+
 </html>

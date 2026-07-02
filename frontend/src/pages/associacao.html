@@ -4,71 +4,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
     <title>Associação de Fornecedor a Produto</title>
 </head>
 
 <body>
-    <button onclick="window.location.href='index.html'">Voltar</button>
-    <br><br>
-    <h1>Detalhes do Produto</h1>
-
-    <form action="enviar_associacao" method="POST">
-
-        <div id="nome-produto">
-            <label for="nome-produto">Nome do Produto:</label><br>
-            <input type="text" id="nome-produto" name="nome-produto" value="nome do produto" readonly>
-        </div>
-
+    <div class="container">
+        <button onclick="window.location.href='./index.html'">Voltar</button>
         <br><br>
+        <h1>Detalhes do Produto</h1>
 
-        <div id="campo">
-            <label for="codigo">Código de barras:</label><br>
-            <input type="text" id="codigo" name="codigo" value="0000000000000" readonly>
-        </div>
+        <form id="formAssociacao">
 
-        <br><br>
+            <div>
+                <label for="produto"> Produto:</label><br>
+                <select id="produto" required>
+                    <option value="">Selecione um produto</option>
+                </select>
+            </div>
 
-        <div id="descricao">
-            <label for="descricao">Descrição:</label><br>
-            <input type="text" id="descricao" name="descricao" value="Descrição breve do produto" readonly>
-        </div>
-
-        <br><br>
-
-        <div>
-            <label for="imagem">Imagem do Produto (Se aplicável):</label><br><br>
-            <input type="file" id="imagem" name="imagem" accept="image/*">
-        </div>
-
-        <h1>Associação de Fornecedor</h1>
-        <p>*Significa que são campos obrigatórios</p>
-
-        <div>
-            <label for="selecao-fornecedor">Seleção de Fornecedor*:</label><br>
-            <select id="selecao-fornecedor" name="selecao-fornecedor" required>
-                <option value="">Selecione um fornecedor</option>
-                <option value="fornecedor1">Fornecedor 1</option>
-                <option value="fornecedor2">Fornecedor 2</option>
-                <option value="fornecedor3">Fornecedor 3</option>
-            </select>
             <br><br>
-            <input type="submit" value="Associar Fornecedor">   
-        </div>
 
-        <div id="fornecedores-associados">
-            <h2>Fornecedores Associados</h2>
+            <div>
+                <label>Fornecedor:</label><br>
+                <select id="fornecedor" required>
+                    <option value="">Selecione um fornecedor</option>
 
-            <ul>
-                <li>
-                    Fornecedor ABC Ltda - 12.345.678/0001-90 <br><br>
-                    <button>Desassociar</button>
-                </li>
-                <br><br>
-                <li>
-                    Fornecedor XPTO - 98.765.432/0001-10 <br><br>
-                    <button>Desassociar</button>
-                </li>
-            </ul>
-        </div>
-    </form>
+                </select>
+            </div>
+
+            <br><br>
+
+            <input type="submit" value="Associar">
+        </form>
+        <hr>
+        <h2>Associações realizadas</h2>
+        <ul id="listaAssociacoes"></ul>
+
+        <script>
+            async function carregarFornecedores() {
+
+                const resposta = await fetch("http://localhost:3000/fornecedores");
+
+                const fornecedores = await resposta.json();
+
+                const select = document.getElementById("fornecedor");
+
+                fornecedores.forEach(fornecedor => {
+
+                    select.innerHTML +=
+                        `<option value="${fornecedor.id}">
+            ${fornecedor.nome_empresa}
+        </option>`;
+
+                });
+
+            }
+
+            carregarFornecedores();
+
+            async function carregarProdutos() {
+
+                const resposta = await fetch("http://localhost:3000/produtos");
+
+                const produtos = await resposta.json();
+
+                const select = document.getElementById("produto");
+
+                produtos.forEach(produto => {
+
+                    select.innerHTML +=
+                        `<option value="${produto.id}">
+            ${produto.nome_produto}
+        </option>`;
+
+                });
+
+            }
+
+            carregarProdutos();
+
+            const formulario = document.getElementById("formAssociacao");
+
+            formulario.addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const associacao = {
+
+                    fornecedor_id: document.getElementById("fornecedor").value,
+
+                    produto_id: document.getElementById("produto").value
+
+                };
+
+                try {
+
+                    const resposta = await fetch("http://localhost:3000/associacoes", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(associacao)
+
+                    });
+
+                    const dados = await resposta.json();
+
+                    alert(dados.mensagem);
+
+                    if (resposta.ok) {
+                        formulario.reset();
+
+                        carregarAssociacoes();
+                    }
+
+                } catch (erro) {
+
+                    alert("Erro ao conectar com o servidor.");
+
+                    console.error(erro);
+
+                }
+
+            });
+
+
+            async function carregarAssociacoes() {
+
+                const resposta = await fetch("http://localhost:3000/associacoes");
+
+                const associacoes = await resposta.json();
+
+                const lista = document.getElementById("listaAssociacoes");
+
+                lista.innerHTML = "";
+
+                associacoes.forEach(associacao => {
+
+                    lista.innerHTML +=
+                        `<li>Fornecedor: ${associacao.nome_empresa} - Produto: ${associacao.nome_produto}</li>`;
+
+                });
+
+            }
+
+            carregarAssociacoes();
+        </script>
+    </div>
 </body>

@@ -4,54 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/frontend/src/App.css">
-    <link rel="stylesheet" href="/frontend/src/index.css">
+    <link rel="stylesheet" href="app.css">
     <title>Cadastro de Produto</title>
 </head>
 
 <body>
-    <button>
-        <a href="index.html">Voltar</a>
-    </button> <br><br>
+    <div class="container">
 
-    <form action="/enviar-dados" method="POST">
-        <div>
-            <label for="nome">Nome do Produto:</label><br>
-            <input type="text" id="nome" name="nome" required placeholder="Insira o nome do produto">
-        </div>
-        <br><br>
+        <button type="button" onclick="window.location.href='index.html'">
+            Voltar
+        </button> <br><br>
+        <h1>Formulário de cadastro</h1>
+        <form id="formProduto">
+            <div>
+                <label for="nome">Nome do Produto:</label><br>
+                <input type="text" id="nome" name="nome" required placeholder="Insira o nome do produto">
+            </div>
+            <br><br>
 
-        <div>
-            <label for="codigo">Código de Barras:</label><br>
-            <input type="number" id="codigo" name="codigo" required placeholder="Insira o código de barras">
-        </div>
+            <div>
+                <label for="codigo">Código de Barras:</label><br>
+                <input type="number" id="codigo" name="codigo" required placeholder="Insira o código de barras">
+            </div>
 
-        <br><br>
+            <br><br>
 
-        <div>
-            <label for="descricao">Descrição:</label><br>
-            <textarea id="descricao" name="descricao" required placeholder="Descreva brevemente o produto"></textarea>
-        </div>
+            <div>
+                <label for="descricao">Descrição:</label><br>
+                <textarea id="descricao" name="descricao" required
+                    placeholder="Descreva brevemente o produto"></textarea>
+            </div>
 
-        <br><br>
 
-        <div>
-            <label for="preco">Preço:</label><br>
-            <input type="number" id="preco" name="preco" required placeholder="Insira o preço do produto">
-        </div>
+            <br><br>
 
-        <br><br>
+            <div>
+                <label for="quantidade">Quantidade em Estoque:</label><br>
+                <input type="number" id="quantidade" name="quantidade" required placeholder="Quantidade disponível">
+            </div>
 
-        <div>
-            <label for="quantidade">Quantidade em Estoque:</label><br>
-            <input type="number" id="quantidade" name="quantidade" required placeholder="Quantidade disponível">
-        </div>
+            <br><br>
 
-        <br><br>
-
-        <div>
-            <label for="categoria">Categoria:</label><br>
-            <dropdown>
+            <div>
+                <label for="categoria">Categoria:</label><br>
                 <select id="categoria" name="categoria" required>
                     <option value="">Selecione uma categoria</option>
                     <option value="eletronicos">Eletrônicos</option>
@@ -60,25 +55,81 @@
                     <option value="moveis">Móveis</option>
                     <option value="outros">Outros</option>
                 </select>
-            </dropdown>
-        </div>
-        <br><br>
 
-        <div>   
-            <label for="data">Data de Validade:</label><br>
-            <input type="date" id="data" name="data" required placeholder="Insira a data de validade do produto">
-        </div>
+            </div>
+            <br><br>
 
-        <br><br>
+            <div>
+                <label for="data">Data de Validade:</label><br>
+                <input type="date" id="data" name="data" required placeholder="Insira a data de validade do produto">
+            </div>
 
-        <div>
-            <label for="imagem">Imagem do Produto:</label><br>
-            <input type="file" id="imagem" name="imagem" accept="image/*">
-        </div>
+            <br><br>
 
-        <br><br>
-        <input type="submit" value="Enviar">
-    </form>
+            <div>
+                <label for="imagem">Imagem do Produto:</label><br>
+                <input type="file" id="imagem" name="imagem" accept="image/*">
+            </div>
+
+            <br><br>
+            <input type="submit" value="Enviar">
+        </form>
+
+        <script>
+
+            const formulario = document.getElementById("formProduto");
+
+            formulario.addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const produto = {
+
+                    nome_produto: document.getElementById("nome").value,
+                    codigo_barras: document.getElementById("codigo").value,
+                    descricao: document.getElementById("descricao").value,
+                    quantidade_estoque: document.getElementById("quantidade").value,
+                    categoria: document.getElementById("categoria").value,
+                    data_validade: document.getElementById("data").value,
+                    imagem: document.getElementById("imagem").value
+
+                };
+
+                try {
+
+                    const resposta = await fetch("http://localhost:3000/produtos", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(produto)
+
+                    });
+
+                    const dados = await resposta.json();
+
+                    alert(dados.mensagem);
+
+                    if (resposta.ok) {
+                        formulario.reset();
+                    }
+
+                } catch (erro) {
+
+                    alert("Erro ao conectar com o servidor.");
+
+                    console.error(erro);
+
+                }
+
+            });
+
+        </script>
+    </div>
+
 </body>
 
 </html>
